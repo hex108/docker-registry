@@ -112,6 +112,20 @@ def get_by_key(key):
     return content
 
 
+def set_key_val(key, val):
+    try:
+        redis_conn.set(key, val)
+    except redis.exceptions.ConnectionError as e:
+        logging.warning("LRU: Redis connection error: {0}".format(e))
+
+
+def remove_key(key):
+    try:
+        redis_conn.delete(key)
+    except redis.exceptions.ConnectionError as e:
+        logging.warning("LRU: Redis connection error: {0}".format(e))
+
+
 def remove(f):
     @functools.wraps(f)
     def wrapper(*args):
