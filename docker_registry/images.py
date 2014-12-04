@@ -281,7 +281,7 @@ def put_image_checksum(image_id):
 def get_image_json(image_id, headers):
     try:
         repository = toolkit.get_repository()
-        if repository: # and store.is_private(*repository):
+        if repository and store.is_private(*repository):
             if not toolkit.validate_parent_access(image_id):
                 return toolkit.api_error('Image not found', 404)
         # If no auth token found, either standalone registry or privileged
