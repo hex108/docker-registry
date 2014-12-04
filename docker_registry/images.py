@@ -171,7 +171,6 @@ def _valid_bytes_range(bytes_range):
 
 @app.route('/v1/images/<image_id>/layer', methods=['GET'])
 @toolkit.requires_auth
-@require_completion
 @set_cache_headers
 @mirroring.source_lookup(cache=True, stream=True)
 def get_image_layer(image_id, headers):
@@ -277,7 +276,6 @@ def put_image_checksum(image_id):
 
 @app.route('/v1/images/<image_id>/json', methods=['GET'])
 @toolkit.requires_auth
-@require_completion
 @set_cache_headers
 @mirroring.source_lookup(cache=True, stream=False)
 def get_image_json(image_id, headers):
@@ -295,7 +293,6 @@ def get_image_json(image_id, headers):
 
 @app.route('/v1/images/<image_id>/ancestry', methods=['GET'])
 @toolkit.requires_auth
-@require_completion
 @set_cache_headers
 @mirroring.source_lookup(cache=True, stream=False)
 def get_image_ancestry(image_id, headers):
@@ -393,7 +390,6 @@ def put_image_json(image_id):
 
 @app.route('/v1/images/<image_id>/files', methods=['GET'])
 @toolkit.requires_auth
-@require_completion
 @set_cache_headers
 def get_image_files(image_id, headers):
     try:
@@ -413,7 +409,6 @@ def get_image_files(image_id, headers):
 
 @app.route('/v1/images/<image_id>/diff', methods=['GET'])
 @toolkit.requires_auth
-@require_completion
 @set_cache_headers
 def get_image_diff(image_id, headers):
     try:
