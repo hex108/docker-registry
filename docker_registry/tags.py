@@ -196,6 +196,11 @@ def put_tag(namespace, repository, tag):
     sender = flask.current_app._get_current_object()
     signals.tag_created.send(sender, namespace=namespace,
                              repository=repository, tag=tag, value=data)
+    try:
+        signals.repository_created.send(
+            sender, namespace=namespace, repository=repository, value=data)
+    except Exception:
+        pass # Just ignore
     # Write some meta-data about the repos
     ua = flask.request.headers.get('user-agent', '')
     data = create_tag_json(user_agent=ua)
