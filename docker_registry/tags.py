@@ -199,7 +199,10 @@ def put_tag(namespace, repository, tag):
     try:
         signals.repository_created.send(
             sender, namespace=namespace, repository=repository, value=data)
-    except Exception:
+    except Exception as e:
+        logger.info("[create_repository] namespace={0}; repository={1}"
+            .format(namespace, repository))
+        logger.warn(e)
         pass # Just ignore
     # Write some meta-data about the repos
     ua = flask.request.headers.get('user-agent', '')
