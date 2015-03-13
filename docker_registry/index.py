@@ -87,18 +87,19 @@ def update_index_images(namespace, repository, data_arg):
 @toolkit.parse_repository_name
 @toolkit.requires_auth
 def put_repository(namespace, repository, images=False):
-    data = None
-    try:
-        # Note(dmp): unicode patch
-        data = json.loads(flask.request.data.decode('utf8'))
-    except ValueError:
-        return toolkit.api_error('Error Decoding JSON', 400)
-    if not isinstance(data, list):
-        return toolkit.api_error('Invalid data')
-    update_index_images(namespace, repository, flask.request.data)
-    headers = generate_headers(namespace, repository, 'write')
-    code = 204 if images is True else 200
-    return toolkit.response('', code, headers)
+    # data = None
+    # try:
+    #     # Note(dmp): unicode patch
+    #     data = json.loads(flask.request.data.decode('utf8'))
+    # except ValueError:
+    #     return toolkit.api_error('Error Decoding JSON', 400)
+    # if not isinstance(data, list):
+    #     return toolkit.api_error('Invalid data')
+    # update_index_images(namespace, repository, flask.request.data)
+    # headers = generate_headers(namespace, repository, 'write')
+    # code = 204 if images is True else 200
+    # return toolkit.response('', code, headers)
+    return toolkit.response('Not allowed to push to registry directly', 402)
 
 
 @app.route('/v1/repositories/<path:repository>/images', methods=['GET'])
@@ -106,14 +107,15 @@ def put_repository(namespace, repository, images=False):
 @toolkit.requires_auth
 @mirroring.source_lookup(index_route=True)
 def get_repository_images(namespace, repository):
-    data = None
-    try:
-        path = store.index_images_path(namespace, repository)
-        data = store.get_content(path)
-    except exceptions.FileNotFoundError:
-        return toolkit.api_error('images not found', 404)
-    headers = generate_headers(namespace, repository, 'read')
-    return toolkit.response(data, 200, headers, True)
+    # data = None
+    # try:
+    #     path = store.index_images_path(namespace, repository)
+    #     data = store.get_content(path)
+    # except exceptions.FileNotFoundError:
+    #     return toolkit.api_error('images not found', 404)
+    # headers = generate_headers(namespace, repository, 'read')
+    # return toolkit.response(data, 200, headers, True)
+    return toolkit.response('Not allowed to pull from registry directly', 402)
 
 
 @app.route('/v1/repositories/<path:repository>/images', methods=['DELETE'])
