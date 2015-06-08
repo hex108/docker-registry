@@ -219,7 +219,7 @@ def delete_tag(namespace, repository, tag):
     logger.debug("[delete_tag] namespace={0}; repository={1}; tag={2}".format(
                  namespace, repository, tag))
     tag_path = store.tag_path(namespace, repository, tag)
-    image = store.get_content(path=tag_path)
+    image = store.get_content(tag_path)
     store.remove(tag_path)
     store.remove(store.repository_tag_json_path(namespace, repository,
                                                 tag))
